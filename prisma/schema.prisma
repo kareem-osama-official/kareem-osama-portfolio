@@ -1,0 +1,127 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Profile {
+  id           String   @id @default("default")
+  nameEn       String   @default("Kareem Osama")
+  nameAr       String   @default("كريم أسامة")
+  headlineEn   String   @default("Building Systems Behind the Interface.")
+  headlineAr   String   @default("بناء النظم الهندسية خلف الواجهة.")
+  bioEn        String   @default("I design and build scalable digital products with clean architecture, focused on core computer science foundations and measurable real-world utility.")
+  bioAr        String   @default("أصمم وأبني منتجات برمجية متينة بمعمارية واضحة، مع التركيز على أسس علوم الحاسب والقيمة العملية الملموسة.")
+  roleEn       String   @default("Software Architect & CS Student")
+  roleAr       String   @default("معماري برمجيات وطالب علوم حاسب")
+  locationEn   String   @default("Cairo, Egypt")
+  locationAr   String   @default("القاهرة، مصر")
+  timezone     String   @default("UTC+2 (EEST)")
+  statusEn     String   @default("Available for technical collaborations & ambitious projects")
+  statusAr     String   @default("متاح للتعاون التقني والمشاريع الطموحة")
+  email        String   @default("kareemosama.dev@gmail.com")
+  githubUrl    String   @default("https://github.com/kareemosama")
+  linkedinUrl  String   @default("https://linkedin.com/in/kareemosama")
+  portraitUrl  String   @default("/images/kareem-osama.jpg")
+  updatedAt    DateTime @updatedAt
+}
+
+model Project {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  titleEn         String
+  titleAr         String
+  taglineEn       String
+  taglineAr       String
+  categoryEn      String
+  categoryAr      String
+  roleEn          String
+  roleAr          String
+  overviewEn      String
+  overviewAr      String
+  problemEn       String
+  problemAr       String
+  architectureEn  String
+  architectureAr  String
+  technologies    String   // JSON string array e.g. ["Next.js", "TypeScript"]
+  statusBadgeEn   String
+  statusBadgeAr   String
+  statusType      String   @default("in_progress") // "completed" | "in_progress" | "research"
+  statusNoteEn    String
+  statusNoteAr    String
+  featuresJson    String   @default("[]") // JSON string of features
+  githubUrl       String?
+  liveDemoUrl     String?
+  resultsMetricEn String?  // e.g. "Core Modules Operational"
+  resultsMetricAr String?
+  isFlagship      Boolean  @default(false)
+  isFeatured      Boolean  @default(true)
+  isPublished     Boolean  @default(true)
+  displayOrder    Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Skill {
+  id           String   @id @default(cuid())
+  name         String
+  category     String   // "languages" | "frontend" | "foundations" | "tools"
+  levelEn      String
+  levelAr      String
+  evidenceEn   String?
+  evidenceAr   String?
+  isHighlight  Boolean  @default(false)
+  isVisible    Boolean  @default(true)
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model JourneyMilestone {
+  id             String   @id @default(cuid())
+  period         String
+  titleEn        String
+  titleAr        String
+  institutionEn  String
+  institutionAr  String
+  descriptionEn  String
+  descriptionAr  String
+  badgeEn        String
+  badgeAr        String
+  skillsApplied  String   // JSON array string
+  displayOrder   Int      @default(0)
+  isVisible      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model ContactMessage {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  subject    String?
+  message    String
+  isRead     Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
